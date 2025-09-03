@@ -6,7 +6,14 @@ export async function POST(req: Request) {
     const { email } = (await req.json()) as { email?: string };
 
     // simple validation; also normalizes everything after the @
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.replace(/.*@/, '@'))) {
+ 
+if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  return NextResponse.json({ ok: false, error: 'Invalid email' 
+}, { status: 400 });
+}
+ 
+(!email || 
+!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.replace(/.*@/, '@'))) {
       return NextResponse.json({ ok: false, error: 'Invalid email' }, { status: 400 });
     }
 
