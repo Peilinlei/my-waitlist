@@ -1,12 +1,12 @@
-https://chatgpt.com/codeximport { NextResponse } from 
-'next/server';
+import { NextResponse } from 'next/server';
 import { supabaseServer } from '../../../lib/supabaseServer';
 
 export async function POST(req: Request) {
   try {
     const { email } = (await req.json()) as { email?: string };
 
-    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+    // simple validation; also normalizes everything after the @
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.replace(/.*@/, '@'))) {
       return NextResponse.json({ ok: false, error: 'Invalid email' }, { status: 400 });
     }
 
